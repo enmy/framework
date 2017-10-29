@@ -1,6 +1,7 @@
 <?php
-
 namespace Framework;
+
+use Framework\Config\Constants;
 
 /**
 * Para mostrar las vistas
@@ -10,13 +11,13 @@ class Response
 
     private function __construct() {}
 
-    public static function render($view, $params = array())
+    public static function render($template, $params = array())
     {
-        foreach ($params as $key => $value) {
-            $$key = $value;
-        }
+        $view = new View;
 
-        require_once APP_PATH."views/".$view.".php";
+        $view->assign($params);
+
+        $view->display($template);
     }
 
     public static function ajaxDie(array $data = array())
