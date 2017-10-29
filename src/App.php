@@ -1,6 +1,8 @@
 <?php
 namespace Framework;
 
+use Framework\Config\Constants;
+
 /**
  * Inicia la aplicacion
  *
