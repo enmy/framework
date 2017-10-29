@@ -1,5 +1,4 @@
 <?php
-
 namespace Framework;
 
 /**
@@ -29,9 +28,11 @@ class App
             $controllerName = $action['controller'];
             $method = $action['method'];
 
-            require_once APP_PATH.'controllers/'.$controllerName.'.php';
+            require_once Constants::get('PATH.APP').'controllers/'.$controllerName.'.php';
 
-            $controller = new $controllerName();
+            $controllerFullName = Constants::get('NAMESPACE.CONTROLLERS'). $controllerName;
+
+            $controller = new $controllerFullName();
 
             $controller->$method();
         } catch (Exception $e) {
