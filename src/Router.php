@@ -1,5 +1,4 @@
 <?php
-
 namespace Framework;
 
 /**
@@ -13,7 +12,7 @@ class Router
 {
     /** @var array Contiene el verbo http, la ruta y el controlador y metodo correspondiente */
     private static $routes = array();
-    
+
     /** Esta clase no debe ser instanciada */
     private function __construct() {}
 
@@ -62,7 +61,7 @@ class Router
     /**
      * Obtiene el controlador y el metodo para la ruta dada.
      *
-     * @param string $route La url. Por ejemplo panel/admin
+     * @param string $route La url. Por ejemplo: panel/admin
      * @return array
      * @throws Exception En caso de que la ruta no este definida
      * @version 0.2
@@ -70,31 +69,40 @@ class Router
      */
     public static function getAction($route)
     {
-        // $_SERVER["REQUEST_METHOD"] da problemas cuando se corren
-        // las pruebas con phpunit y no esta definido
-        if (!isset($_SERVER["REQUEST_METHOD"])) {
-            $_SERVER["REQUEST_METHOD"] = "GET";
-        }
-
-        if ($_SERVER["REQUEST_METHOD"] == "GET"
-            && isset(static::$routes["get"])
-            && array_key_exists($route, static::$routes["get"])
+        if (
+            static::isRequest('GET')
+            && isset(static::$routes['get'])
+            && array_key_exists($route, static::$routes['get'])
         ) {
-            return static::$routes["get"][$route];
+            return static::$routes['get'][$route];
 
-        } else if ($_SERVER["REQUEST_METHOD"] == "POST"
-            && isset(static::$routes["post"])
-            && array_key_exists($route, static::$routes["post"])
+        } elseif (
+            static::isRequest('POST')
+            && isset(static::$routes['post'])
+            && array_key_exists($route, static::$routes['post'])
         ) {
-            return static::$routes["post"][$route];
+            return static::$routes['post'][$route];
 
-        } else if (isset(static::$routes["add"])
-            && array_key_exists($route, static::$routes["add"])
+        } elseif (
+            isset(static::$routes['add'])
+            && array_key_exists($route, static::$routes['add'])
         ) {
-            return static::$routes["add"][$route];
+            return static::$routes['add'][$route];
 
         }
 
         throw new \Exception("La ruta '{$route}' no fue encontrada");
+    }
+
+    /**
+     * Indica si $_SERVER['REQUEST_METHOD'] es del tipo dado por $verb.
+     *
+     * @param string $verb El verbo. Por ejemplo: 'GET' | 'POST'
+     * @return bool
+     * @since 0.2
+     */
+    public static function isRequest($verb)
+    {
+        return isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === $verb;
     }
 }
