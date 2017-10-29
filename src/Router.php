@@ -70,23 +70,31 @@ class Router
      */
     public static function getAction($route)
     {
-        if (isset($_SERVER["REQUEST_METHOD"])) {
-            if ($_SERVER["REQUEST_METHOD"] == "GET" 
-                && isset(static::$routes["get"]) 
-                && array_key_exists($route, static::$routes["get"])) {
-                return static::$routes["get"][$route];
+        // $_SERVER["REQUEST_METHOD"] da problemas cuando se corren
+        // las pruebas con phpunit y no esta definido
+        if (!isset($_SERVER["REQUEST_METHOD"])) {
+            $_SERVER["REQUEST_METHOD"] = "GET";
+        }
 
-            } else if ($_SERVER["REQUEST_METHOD"] == "POST" && isset(static::$routes["post"]) && array_key_exists($route, static::$routes["post"])) {
-                return static::$routes["post"][$route];
-            } else {
-                throw new Exception("La ruta '{$route}' no fue encontrada");
-            }
-        } else if (isset(static::$routes["add"]) && array_key_exists($route, static::$routes["add"])) {
+        if ($_SERVER["REQUEST_METHOD"] == "GET"
+            && isset(static::$routes["get"])
+            && array_key_exists($route, static::$routes["get"])
+        ) {
+            return static::$routes["get"][$route];
+
+        } else if ($_SERVER["REQUEST_METHOD"] == "POST"
+            && isset(static::$routes["post"])
+            && array_key_exists($route, static::$routes["post"])
+        ) {
+            return static::$routes["post"][$route];
+
+        } else if (isset(static::$routes["add"])
+            && array_key_exists($route, static::$routes["add"])
+        ) {
             return static::$routes["add"][$route];
 
-        } else {
-            throw new Exception("La ruta '{$route}' no fue encontrada");
         }
-    }
 
+        throw new \Exception("La ruta '{$route}' no fue encontrada");
+    }
 }
