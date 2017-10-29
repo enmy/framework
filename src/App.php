@@ -26,10 +26,10 @@ class App
         try {
             $action = Router::getAction($url);
 
-            $controllerName = $action["controller"];
-            $method = $action["method"];
+            $controllerName = $action['controller'];
+            $method = $action['method'];
 
-            require_once APP_PATH."controllers/".$controllerName.".php";
+            require_once APP_PATH.'controllers/'.$controllerName.'.php';
 
             $controller = new $controllerName();
 
@@ -49,8 +49,8 @@ class App
      */
     public function parseUrl()
     {
-        if (isset($_GET["url"])) {
-            return $_GET["url"];
+        if (isset($_GET['url'])) {
+            return $_GET['url'];
         }
     }
 }

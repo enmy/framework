@@ -27,7 +27,7 @@ class Router
      */
     public static function add($route, $controller, $method)
     {
-        static::$routes["add"][$route] = ["controller" => $controller, "method" => $method];
+        static::$routes['add'][$route] = ['controller' => $controller, 'method' => $method];
     }
 
     /**
@@ -41,7 +41,7 @@ class Router
      */
     public static function get($route, $controller, $method)
     {
-        static::$routes["get"][$route] = ["controller" => $controller, "method" => $method];
+        static::$routes['get'][$route] = ['controller' => $controller, 'method' => $method];
     }
 
     /**
@@ -55,7 +55,7 @@ class Router
      */
     public static function post($route, $controller, $method)
     {
-        static::$routes["post"][$route] = ["controller" => $controller, "method" => $method];
+        static::$routes['post'][$route] = ['controller' => $controller, 'method' => $method];
     }
 
     /**

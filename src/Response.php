@@ -18,4 +18,11 @@ class Response
 
         require_once APP_PATH."views/".$view.".php";
     }
+
+    public static function ajaxDie(array $data = array())
+    {
+        $json = json_decode($data);
+
+        die($json);
+    }
 }
