@@ -1,7 +1,7 @@
 <?php
+namespace Framework;
 
 use PHPUnit\Framework\TestCase;
-use Framework\Router;
 
 final class RouterTest extends TestCase
 {
@@ -54,5 +54,19 @@ final class RouterTest extends TestCase
     {
         $this->expectException(\Exception::class);
         Router::getAction("ruta_inexistente");
+    }
+
+    public function test_isRequest()
+    {
+        $this->assertFalse(Router::isRequest('GET'));
+        $this->assertFalse(Router::isRequest('POST'));
+
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $this->assertTrue(Router::isRequest('GET'));
+        $this->assertFalse(Router::isRequest('POST'));
+
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $this->assertFalse(Router::isRequest('GET'));
+        $this->assertTrue(Router::isRequest('POST'));
     }
 }
