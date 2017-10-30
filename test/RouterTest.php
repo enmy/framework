@@ -9,7 +9,7 @@ final class RouterTest extends TestCase
     {
         Router::add("home", "MainController", "index");
 
-        $action = Router::getAction("home");
+        $action = Router::getInstance()->getAction("home");
 
         $this->assertArraySubset(
             [
@@ -24,7 +24,7 @@ final class RouterTest extends TestCase
     {
         Router::get("home", "MainController", "index");
 
-        $action = Router::getAction("home");
+        $action = Router::getInstance()->getAction("home");
 
         $this->assertArraySubset(
             [
@@ -39,7 +39,7 @@ final class RouterTest extends TestCase
     {
         Router::post("home", "MainController", "index");
 
-        $action = Router::getAction("home");
+        $action = Router::getInstance()->getAction("home");
 
         $this->assertArraySubset(
             [
@@ -53,20 +53,21 @@ final class RouterTest extends TestCase
     public function test_getAction_Exception()
     {
         $this->expectException(\Exception::class);
-        Router::getAction("ruta_inexistente");
+        Router::getInstance()->getAction('ruta_inexistente');
     }
 
     public function test_isRequest()
     {
-        $this->assertFalse(Router::isRequest('GET'));
-        $this->assertFalse(Router::isRequest('POST'));
+        $router = Router::getInstance();
+        $this->assertFalse($router->isRequest('GET'));
+        $this->assertFalse($router->isRequest('POST'));
 
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $this->assertTrue(Router::isRequest('GET'));
-        $this->assertFalse(Router::isRequest('POST'));
+        $this->assertTrue($router->isRequest('GET'));
+        $this->assertFalse($router->isRequest('POST'));
 
         $_SERVER['REQUEST_METHOD'] = 'POST';
-        $this->assertFalse(Router::isRequest('GET'));
-        $this->assertTrue(Router::isRequest('POST'));
+        $this->assertFalse($router->isRequest('GET'));
+        $this->assertTrue($router->isRequest('POST'));
     }
 }
