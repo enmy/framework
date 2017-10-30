@@ -15,12 +15,14 @@ class View extends \Smarty {
     {
         parent::__construct();
 
-        $this->setTemplateDir(Constants::get('PATH.TEMPLATES'));
-        $this->setCompileDir(Constants::get('PATH.CACHE'). '/smarty/templates_c/');
+        $constants = Constants::getInstance();
+
+        $this->setTemplateDir($constants->get('PATH.TEMPLATES'));
+        $this->setCompileDir($constants->get('PATH.CACHE'). '/smarty/templates_c/');
         // $this->setConfigDir('/web/www.example.com/guestbook/configs/');
-        $this->setCacheDir(Constants::get('PATH.CACHE'). '/smarty/cache/');
+        $this->setCacheDir($constants->get('PATH.CACHE'). '/smarty/cache/');
 
         $this->caching = \Smarty::CACHING_LIFETIME_CURRENT;
-        $this->assign('app_name', Constants::get('APP_NAME'));
+        $this->assign('app_name', $constants->get('APP_NAME'));
     }
 }
