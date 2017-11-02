@@ -4,16 +4,30 @@ namespace Framework\Config;
 /**
 * 
 */
-class Constants
+class Constants implements IConfig
 {
     private static $constants = array();
 
-    /** Esta clase no debe ser instanciada */
-    private function __construct() {}
+    private static $instance = null;
 
-    protected static function init()
+    /** Esta clase no debe ser instanciada */
+    private function __construct()
     {
-        if (! empty(static::$constants)) {
+        $this->init();
+    }
+
+    public static function getInstance()
+    {
+        if (self::$instance == null) {
+            self::$instance = new self();
+        }
+
+        return self::$instance;
+    }
+
+    private function init()
+    {
+        if (! empty(self::$constants)) {
             return;
         }
 
@@ -24,17 +38,15 @@ class Constants
         $aux = include(__DIR__.'/const.php');
 
         if (is_array($aux)) {
-            static::$constants = $aux;
+            self::$constants = $aux;
         }
     }
 
-    public static function get($key)
+    public function get($key)
     {
-        static::init();
-
         $keys = explode('.', $key);
 
-        $aux = static::$constants;
+        $aux = self::$constants;
 
         foreach ($keys as $val) {
             if (isset($aux[$val])) {

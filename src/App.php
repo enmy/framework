@@ -1,6 +1,8 @@
 <?php
-
 namespace Framework;
+
+use Framework\Config\IConfig;
+use Framework\Config\Constants;
 
 /**
  * Inicia la aplicacion
@@ -19,19 +21,29 @@ class App
      * @version 0.1
      * @since 0.1
      */
-    public function __construct()
+    public function __construct(IConfig $config = null, IRouter $router = null)
     {
         $url = $this->parseUrl();
 
+        if ($config == null) {
+            $config = Constants::getInstance();
+        }
+
+        if ($router == null) {
+            $router = Router::getInstance();
+        }
+
         try {
-            $action = Router::getAction($url);
+            $action = $router->getAction($url);
 
             $controllerName = $action['controller'];
             $method = $action['method'];
 
-            require_once APP_PATH.'controllers/'.$controllerName.'.php';
+            require_once $config->get('PATH.APP').'controllers/'.$controllerName.'.php';
 
-            $controller = new $controllerName();
+            $controllerFullName = $config->get('NAMESPACE.CONTROLLERS'). $controllerName;
+
+            $controller = new $controllerFullName();
 
             $controller->$method();
         } catch (Exception $e) {

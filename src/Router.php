@@ -8,13 +8,24 @@ namespace Framework;
  * @version 0.2
  * @since 0.1
  */
-class Router
+class Router implements IRouter
 {
     /** @var array Contiene el verbo http, la ruta y el controlador y metodo correspondiente */
     private static $routes = array();
 
+    private static $instance = null;
+
     /** Esta clase no debe ser instanciada */
     private function __construct() {}
+
+    public static function getInstance()
+    {
+        if (self::$instance == null) {
+            self::$instance = new self();
+        }
+
+        return self::$instance;
+    }
 
     /**
      * Agrega una ruta sin importar el verbo http
@@ -27,7 +38,7 @@ class Router
      */
     public static function add($route, $controller, $method)
     {
-        static::$routes['add'][$route] = ['controller' => $controller, 'method' => $method];
+        self::$routes['add'][$route] = ['controller' => $controller, 'method' => $method];
     }
 
     /**
@@ -41,7 +52,7 @@ class Router
      */
     public static function get($route, $controller, $method)
     {
-        static::$routes['get'][$route] = ['controller' => $controller, 'method' => $method];
+        self::$routes['get'][$route] = ['controller' => $controller, 'method' => $method];
     }
 
     /**
@@ -55,7 +66,7 @@ class Router
      */
     public static function post($route, $controller, $method)
     {
-        static::$routes['post'][$route] = ['controller' => $controller, 'method' => $method];
+        self::$routes['post'][$route] = ['controller' => $controller, 'method' => $method];
     }
 
     /**
@@ -67,27 +78,27 @@ class Router
      * @version 0.2
      * @since 0.1
      */
-    public static function getAction($route)
+    public function getAction($route)
     {
         if (
-            static::isRequest('GET')
-            && isset(static::$routes['get'])
-            && array_key_exists($route, static::$routes['get'])
+            $this->isRequest('GET')
+            && isset(self::$routes['get'])
+            && array_key_exists($route, self::$routes['get'])
         ) {
-            return static::$routes['get'][$route];
+            return self::$routes['get'][$route];
 
         } elseif (
-            static::isRequest('POST')
-            && isset(static::$routes['post'])
-            && array_key_exists($route, static::$routes['post'])
+            $this->isRequest('POST')
+            && isset(self::$routes['post'])
+            && array_key_exists($route, self::$routes['post'])
         ) {
-            return static::$routes['post'][$route];
+            return self::$routes['post'][$route];
 
         } elseif (
-            isset(static::$routes['add'])
-            && array_key_exists($route, static::$routes['add'])
+            isset(self::$routes['add'])
+            && array_key_exists($route, self::$routes['add'])
         ) {
-            return static::$routes['add'][$route];
+            return self::$routes['add'][$route];
 
         }
 
@@ -101,7 +112,7 @@ class Router
      * @return bool
      * @since 0.2
      */
-    public static function isRequest($verb)
+    public function isRequest($verb)
     {
         return isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === $verb;
     }
