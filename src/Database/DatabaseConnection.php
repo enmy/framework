@@ -10,6 +10,8 @@ class DatabaseConnection
         foreach (static::$fields as $field) {
             if (isset($options[$field])) {
                 $this->$field = $options[$field];
+            } else {
+                $this->$field = null;
             }
         }
     }

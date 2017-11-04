@@ -7,6 +7,7 @@ interface DatabaseInterface {
     public function disconnect();
     public function fetchRow();
     public function fetchAllRow();
+    public function getRow($query, Array $params = array());
     public function fetchObj();
     public function fetchLastInsertId();
     public function resultCount();

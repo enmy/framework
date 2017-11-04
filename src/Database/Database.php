@@ -20,5 +20,7 @@ abstract class Database implements DatabaseInterface
         }
 
         $this->db_connection = $db_connection;
+
+        $this->connect();
     }
 }
