@@ -13,9 +13,7 @@ class MYSQLDatabase extends Database
             throw new \Exception('No es posible contectarse a la base de datos. '. $this->getError());
         }
 
-        if (! mysql_select_db($this->db_connection->database, $this->link)) {
-            throw new \Exception('No es posible cambiar la base de datos. '. $this->getError());
-        }
+        $this->useDB($this->db_connection->database);
 
         if ($this->serverHasTransaction()) {
             $this->transactions_capable = true;
@@ -203,5 +201,16 @@ class MYSQLDatabase extends Database
         }
 
         return false;
+    }
+
+    public function useDB($database)
+    {
+        if (! mysql_select_db($database, $this->link)) {
+            throw new \Exception('No es posible cambiar la base de datos. '. $this->getError());
+        }
+
+        $this->db_connection->database = $database;
+
+        return true;
     }
 }

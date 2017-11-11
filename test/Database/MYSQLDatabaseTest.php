@@ -430,4 +430,19 @@ final class MYSQLDatabaseTest extends TestCase
             $db->disconnect()
         );
     }
+
+    public function test_useDB()
+    {
+        $db = new MYSQLDatabase(
+            new DatabaseConnection($this->db_connection)
+        );
+
+        $this->assertTrue(
+            $db->useDB('test')
+        );
+
+        $this->expectException(\Exception::class);
+
+        $db->useDB('no_existe');
+    }
 }
