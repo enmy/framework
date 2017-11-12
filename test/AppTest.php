@@ -1,17 +1,17 @@
 <?php
 namespace Framework;
 
-use Framework\Config\Constants;
+use Framework\Config\ConstantsMock;
 use PHPUnit\Framework\TestCase;
 
 final class AppTest extends TestCase
 {
     public function test_instantiate()
     {
-        Router::add("home", "MainController", "about");
+        Router::add("home", "MockController", "about");
         $_GET['url'] = 'home';
         $this->expectOutputString('Hola desde about');
 
-        $app = new App;
+        $app = new App(new ConstantsMock);
     }
 }
