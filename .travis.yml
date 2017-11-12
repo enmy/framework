@@ -9,3 +9,9 @@ before_script:
 script:
   - vendor/bin/phpunit test
 
+services:
+  - mysql
+
+before_install:
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS test;'
+  - mysql -e 'CREATE TABLE IF NOT EXISTS `personas` (`id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, `nombre` varchar(255) NOT NULL, `edad` tinyint(3) UNSIGNED NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;'
