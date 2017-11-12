@@ -1,8 +1,8 @@
 <?php
 namespace Framework;
 
-use Framework\Config\ConstantsMock;
 use PHPUnit\Framework\TestCase;
+use Framework\Config\ConstantsMock;
 
 final class AppTest extends TestCase
 {

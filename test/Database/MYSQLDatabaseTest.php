@@ -301,7 +301,7 @@ final class MYSQLDatabaseTest extends TestCase
     public function test_serverHasTransaction()
     {
         $db = new MYSQLDatabase(
-            new DatabaseConnection($this->db_connection_test)
+            new DatabaseConnection($this->db_connection)
         );
 
         $this->assertTrue(

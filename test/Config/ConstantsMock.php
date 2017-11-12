@@ -1,10 +1,6 @@
 <?php
-
 namespace Framework\Config;
 
-/**
-* 
-*/
 class ConstantsMock implements IConfig
 {
     public function get($key)
