@@ -38,7 +38,7 @@ class Router implements IRouter
      */
     public static function add($route, $controller, $method)
     {
-        self::$routes['add'][$route] = ['controller' => $controller, 'method' => $method];
+        self::$routes['add'][$route] = array('controller' => $controller, 'method' => $method);
     }
 
     /**
@@ -52,7 +52,7 @@ class Router implements IRouter
      */
     public static function get($route, $controller, $method)
     {
-        self::$routes['get'][$route] = ['controller' => $controller, 'method' => $method];
+        self::$routes['get'][$route] = array('controller' => $controller, 'method' => $method);
     }
 
     /**
@@ -66,7 +66,7 @@ class Router implements IRouter
      */
     public static function post($route, $controller, $method)
     {
-        self::$routes['post'][$route] = ['controller' => $controller, 'method' => $method];
+        self::$routes['post'][$route] = array('controller' => $controller, 'method' => $method);
     }
 
     /**
