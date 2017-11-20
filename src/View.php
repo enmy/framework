@@ -22,7 +22,7 @@ class View extends \Smarty {
         // $this->setConfigDir('/web/www.example.com/guestbook/configs/');
         $this->setCacheDir($constants->get('PATH.CACHE'). '/smarty/cache/');
 
-        $this->caching = \Smarty::CACHING_LIFETIME_CURRENT;
+        $this->caching = false;
         $this->assign('app_name', $constants->get('APP_NAME'));
     }
 }
