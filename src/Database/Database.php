@@ -11,12 +11,14 @@ abstract class Database implements DatabaseInterface
     public function __construct(DatabaseConnection $db_connection = null)
     {
         if ($db_connection == null) {
-            $db_connection = new DatabaseConnection([
-                'host' => 'localhost',
-                'user' => 'root',
-                'pass' => '',
-                'database' => '',
-            ]);
+            $db_connection = new DatabaseConnection(
+                array(
+                    'host' => 'localhost',
+                    'user' => 'root',
+                    'pass' => '',
+                    'database' => '',
+                )
+            );
         }
 
         $this->db_connection = $db_connection;
