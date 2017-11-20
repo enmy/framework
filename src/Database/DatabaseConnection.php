@@ -3,9 +3,9 @@ namespace Framework\Database;
 
 class DatabaseConnection
 {
-    protected static $fields = ['host', 'user', 'pass', 'database'];
+    protected static $fields = array('host', 'user', 'pass', 'database');
 
-    public function __construct(array $options = [])
+    public function __construct(array $options = array())
     {
         foreach (static::$fields as $field) {
             if (isset($options[$field])) {
