@@ -41,7 +41,7 @@ class ODBCDatabase extends Database
         $all_row = array();
 
         while ($row = $this->fetchRow()) {
-            $all_row[] = $row;var_dump($row);
+            $all_row[] = $row;
         }
 
         return $all_row;
