@@ -70,4 +70,29 @@ final class RouterTest extends TestCase
         $this->assertFalse($router->isRequest('GET'));
         $this->assertTrue($router->isRequest('POST'));
     }
+
+    public function test_parseUri()
+    {
+        $router = Router::getInstance();
+
+        $parse = $router->parseUri('');
+        $this->assertTrue(
+            $parse === '/'
+        );
+
+        $parse = $router->parseUri('/');
+        $this->assertTrue(
+            $parse === '/'
+        );
+
+        $parse = $router->parseUri('home');
+        $this->assertTrue(
+            $parse === '/home'
+        );
+
+        $parse = $router->parseUri('/home');
+        $this->assertTrue(
+            $parse === '/home'
+        );
+    }
 }

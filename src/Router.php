@@ -5,26 +5,24 @@ namespace Framework;
  * Clase que administra las url de la aplicación
  * 
  * @author Enmy Perez
- * @version 0.2
- * @since 0.1
  */
 class Router implements IRouter
 {
     /** @var array Contiene el verbo http, la ruta y el controlador y metodo correspondiente */
-    private static $routes = array();
+    protected static $routes = array();
 
-    private static $instance = null;
+    protected static $instance = null;
 
     /** Esta clase no debe ser instanciada */
-    private function __construct() {}
+    protected function __construct() {}
 
     public static function getInstance()
     {
-        if (self::$instance == null) {
-            self::$instance = new self();
+        if (static::$instance == null) {
+            static::$instance = new static();
         }
 
-        return self::$instance;
+        return static::$instance;
     }
 
     /**
@@ -34,11 +32,10 @@ class Router implements IRouter
      * @param string $controller
      * @param string $method
      * @return void
-     * @since 0.1
      */
     public static function add($route, $controller, $method)
     {
-        self::$routes['add'][$route] = array('controller' => $controller, 'method' => $method);
+        static::getInstance()->createRoute($route, $controller, $method, 'add');
     }
 
     /**
@@ -48,11 +45,10 @@ class Router implements IRouter
      * @param string $controller
      * @param string $method
      * @return void
-     * @since 0.2
      */
     public static function get($route, $controller, $method)
     {
-        self::$routes['get'][$route] = array('controller' => $controller, 'method' => $method);
+        static::getInstance()->createRoute($route, $controller, $method, 'get');
     }
 
     /**
@@ -62,11 +58,10 @@ class Router implements IRouter
      * @param string $controller
      * @param string $method
      * @return void
-     * @since 0.2
      */
     public static function post($route, $controller, $method)
     {
-        self::$routes['post'][$route] = array('controller' => $controller, 'method' => $method);
+        static::getInstance()->createRoute($route, $controller, $method, 'post');
     }
 
     /**
@@ -75,30 +70,30 @@ class Router implements IRouter
      * @param string $route La url. Por ejemplo: panel/admin
      * @return array
      * @throws Exception En caso de que la ruta no este definida
-     * @version 0.2
-     * @since 0.1
      */
     public function getAction($route)
     {
+        $uri = $this->parseUri($route);
+
         if (
             $this->isRequest('GET')
-            && isset(self::$routes['get'])
-            && array_key_exists($route, self::$routes['get'])
+            && isset(static::$routes['get'])
+            && array_key_exists($uri, static::$routes['get'])
         ) {
-            return self::$routes['get'][$route];
+            return static::$routes['get'][$uri];
 
         } elseif (
             $this->isRequest('POST')
-            && isset(self::$routes['post'])
-            && array_key_exists($route, self::$routes['post'])
+            && isset(static::$routes['post'])
+            && array_key_exists($uri, static::$routes['post'])
         ) {
-            return self::$routes['post'][$route];
+            return static::$routes['post'][$uri];
 
         } elseif (
-            isset(self::$routes['add'])
-            && array_key_exists($route, self::$routes['add'])
+            isset(static::$routes['add'])
+            && array_key_exists($uri, static::$routes['add'])
         ) {
-            return self::$routes['add'][$route];
+            return static::$routes['add'][$uri];
 
         }
 
@@ -110,10 +105,34 @@ class Router implements IRouter
      *
      * @param string $verb El verbo. Por ejemplo: 'GET' | 'POST'
      * @return bool
-     * @since 0.2
      */
     public function isRequest($verb)
     {
         return isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === $verb;
+    }
+
+    /**
+     *
+     * @param string $uri
+     * @return string
+     */
+    public function parseUri($uri)
+    {
+        return '/'. trim($uri, '/');
+    }
+
+    /**
+     *
+     * @param string $route
+     * @param string $controller
+     * @param string $method
+     * @param string $http_method
+     * @return void
+     */
+    public function createRoute($route, $controller, $method, $http_method)
+    {
+        $uri = $this->parseUri($route);
+
+        static::$routes[$http_method][$uri] = array('controller' => $controller, 'method' => $method);
     }
 }
