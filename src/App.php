@@ -1,8 +1,8 @@
 <?php
 namespace Framework;
 
+use Framework\Config\Env;
 use Framework\Config\IConfig;
-use Framework\Config\Constants;
 
 /**
  * Inicia la aplicacion
@@ -26,7 +26,7 @@ class App
         $url = $this->parseUrl();
 
         if ($config == null) {
-            $config = Constants::getInstance();
+            $config = Env::getInstance();
         }
 
         if ($router == null) {
@@ -39,9 +39,9 @@ class App
             $controllerName = $action['controller'];
             $method = $action['method'];
 
-            require_once $config->get('PATH.APP').'controllers/'.$controllerName.'.php';
+            require_once $config->getKey('PATH_APP', 'app/').'controllers/'.$controllerName.'.php';
 
-            $controllerFullName = $config->get('NAMESPACE.CONTROLLERS'). $controllerName;
+            $controllerFullName = $config->getKey('NAMESPACE_CONTROLLERS', 'App\\Controllers\\'). $controllerName;
 
             $controller = new $controllerFullName();
 

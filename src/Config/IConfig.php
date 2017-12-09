@@ -3,5 +3,5 @@ namespace Framework\Config;
 
 interface IConfig
 {
-    public function get($key);
+    public function getKey($key, $default = null);
 }
