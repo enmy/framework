@@ -1,7 +1,7 @@
 <?php
 namespace Framework;
 
-use Framework\Config\Constants;
+use Framework\Config\Env;
 
 if (file_exists(__DIR__. '/../../../smarty/smarty/libs/Smarty.class.php')) {
     require_once __DIR__. '/../../../smarty/smarty/libs/Smarty.class.php';
@@ -15,14 +15,14 @@ class View extends \Smarty {
     {
         parent::__construct();
 
-        $constants = Constants::getInstance();
+        $constants = Env::getInstance();
 
-        $this->setTemplateDir($constants->get('PATH.TEMPLATES'));
-        $this->setCompileDir($constants->get('PATH.CACHE'). '/smarty/templates_c/');
+        $this->setTemplateDir($constants->getKey('PATH_TEMPLATES', 'templates/'));
+        $this->setCompileDir($constants->getKey('PATH_CACHE', 'cache/'). '/smarty/templates_c/');
         // $this->setConfigDir('/web/www.example.com/guestbook/configs/');
-        $this->setCacheDir($constants->get('PATH.CACHE'). '/smarty/cache/');
+        $this->setCacheDir($constants->getKey('PATH_CACHE', 'cache/'). '/smarty/cache/');
 
         $this->caching = false;
-        $this->assign('app_name', $constants->get('APP_NAME'));
+        $this->assign('app_name', $constants->getKey('APP_NAME'));
     }
 }

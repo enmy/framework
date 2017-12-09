@@ -69,8 +69,12 @@ class ODBCDatabase extends Database
         return '['. odbc_error($this->link). ': '. odbc_errormsg($this->link). ']';
     }
 
+    public function getRow($query, Array $params = array())
+    {
+        return $this->query($query, $params)->fetchRow();
+    }
+
     public function disconnect(){}
-    public function getRow($query, Array $params = array()){}
     public function fetchRowArray(){}
     public function fetchAllRowArray(){}
     public function fetchLastInsertId(){}

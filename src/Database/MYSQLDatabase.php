@@ -108,7 +108,7 @@ class MYSQLDatabase extends Database
     {
         $this->isIdQuery();
 
-        if (! $n = mysql_num_rows($this->id_query)) {
+        if (($n = mysql_num_rows($this->id_query)) === false) {
             throw new \Exception('No es posible contar las filas. '. $this->getError());
         }
 

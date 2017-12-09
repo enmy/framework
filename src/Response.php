@@ -1,8 +1,6 @@
 <?php
 namespace Framework;
 
-use Framework\Config\Constants;
-
 /**
 * Para mostrar las vistas
 */
