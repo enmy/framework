@@ -9,7 +9,7 @@ class MYSQLDatabase extends Database
     {
         $this->link = mysqli_connect($this->db_connection->host, $this->db_connection->user, $this->db_connection->pass);
 
-        if (! mysqli_connect_error()) {
+        if (mysqli_connect_errno()) {
             throw new \Exception('No es posible contectarse a la base de datos. '. $this->getError());
         }
 
