@@ -7,7 +7,7 @@ class MYSQLDatabase extends Database
 
     public function connect()
     {
-        $this->link = @mysql_connect($this->db_connection->host, $this->db_connection->user, $this->db_connection->pass);
+        $this->link = mysqli_connect($this->db_connection->host, $this->db_connection->user, $this->db_connection->pass);
 
         if (! $this->link) {
             throw new \Exception('No es posible contectarse a la base de datos. '. $this->getError());
@@ -28,7 +28,7 @@ class MYSQLDatabase extends Database
             $this->connect();
         }
 
-        $this->id_query = mysql_query($sql, $this->link);
+        $this->id_query = mysqli_query($this->link, $sql);
 
         if (! $this->id_query) {
             if ($this->begin_transaction) {
@@ -47,14 +47,14 @@ class MYSQLDatabase extends Database
             return '';
         }
 
-        return '['. mysql_errno($this->link). ': '. mysql_error($this->link). ']';
+        return '['. mysqli_errno($this->link). ': '. mysqli_error($this->link). ']';
     }
 
     public function fetchRow()
     {
         $this->isIdQuery();
 
-        return mysql_fetch_object($this->id_query);
+        return mysqli_fetch_object($this->id_query);
     }
 
     public function getRow($query, Array $params = array())
@@ -66,7 +66,7 @@ class MYSQLDatabase extends Database
     {
         $this->isIdQuery();
 
-        return mysql_fetch_array($this->id_query);
+        return mysqli_fetch_array($this->id_query);
     }
 
     public function isIdQuery($throw_exception = true)
@@ -108,7 +108,7 @@ class MYSQLDatabase extends Database
     {
         $this->isIdQuery();
 
-        if (($n = mysql_num_rows($this->id_query)) === false) {
+        if (($n = mysqli_num_rows($this->id_query)) === false) {
             throw new \Exception('No es posible contar las filas. '. $this->getError());
         }
 
@@ -156,7 +156,7 @@ class MYSQLDatabase extends Database
 
     public function clear()
     {
-        if ($this->isIdQuery(false) && ! mysql_free_result($this->id_query)) {
+        if ($this->isIdQuery(false) && ! mysqli_free_result($this->id_query)) {
             return false;
         }
 
@@ -186,7 +186,7 @@ class MYSQLDatabase extends Database
             return false;
         }
 
-        return mysql_insert_id($this->link);
+        return mysqli_insert_id($this->link);
     }
 
     public function disconnect()
@@ -195,7 +195,7 @@ class MYSQLDatabase extends Database
             return true;
         }
 
-        if (mysql_close($this->link)) {
+        if (mysqli_close($this->link)) {
             unset($this->link);
             return true;
         }
@@ -205,7 +205,7 @@ class MYSQLDatabase extends Database
 
     public function useDB($database)
     {
-        if (! mysql_select_db($database, $this->link)) {
+        if (! mysqli_select_db($this->link, $database)) {
             throw new \Exception('No es posible cambiar la base de datos. '. $this->getError());
         }
 
