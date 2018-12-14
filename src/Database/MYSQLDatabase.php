@@ -7,12 +7,7 @@ class MYSQLDatabase extends Database
 
     public function connect()
     {
-        try{
         $this->link = mysqli_connect($this->db_connection->host, $this->db_connection->user, $this->db_connection->pass);
-        } catch (\Exception $e) {
-            echo get_class($e);
-        }
-        var_dump($this->link, mysqli_connect_errno());
 
         if (mysqli_connect_errno()) {
             throw new \Exception('No es posible contectarse a la base de datos.');
