@@ -53,7 +53,7 @@ class MYSQLDatabase extends Database
     public function fetchRow()
     {
         $this->isIdQuery();
-
+var_dump('fetchrow',$this->id_query);
         return mysqli_fetch_object($this->id_query);
     }
 
