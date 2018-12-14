@@ -24,7 +24,7 @@ final class MYSQLDatabaseTest extends TestCase
         SELECT user,host
         FROM user
     ';
-/*
+
     public function test_connection()
     {
         $db = new MYSQLDatabase(
@@ -36,7 +36,7 @@ final class MYSQLDatabaseTest extends TestCase
             $db
         );
     }
-*/
+
     public function test_connection_exception()
     {
         $this->expectException(\Exception::class);
@@ -48,7 +48,7 @@ final class MYSQLDatabaseTest extends TestCase
             new DatabaseConnection($db_connection)
         );
     }
-/*
+
     public function test_selecionar_bd_exception()
     {
         $this->expectException(\Exception::class);
@@ -56,7 +56,7 @@ final class MYSQLDatabaseTest extends TestCase
         $db_connection = $this->db_connection;
         unset($db_connection['database']);
 
-        $db = new MYSQLDatabase(
+        $db = @new MYSQLDatabase(
             new DatabaseConnection($db_connection)
         );
     }
@@ -154,7 +154,7 @@ final class MYSQLDatabaseTest extends TestCase
 
         $db->fetchRow();
     }
-
+/*
     public function test_getRow()
     {
         $db = new MYSQLDatabase(
@@ -243,7 +243,7 @@ final class MYSQLDatabaseTest extends TestCase
 
         $this->expectException(\Exception::class);
 
-        $return = $db->fetchAllRow();
+        @$return = $db->fetchAllRow();
     }
 
     public function test_fetchAllRowArray()
@@ -271,7 +271,7 @@ final class MYSQLDatabaseTest extends TestCase
 
         $this->expectException(\Exception::class);
 
-        $return = $db->fetchAllRowArray();
+        @$return = $db->fetchAllRowArray();
     }
 
     public function test_resultCount()
@@ -295,7 +295,7 @@ final class MYSQLDatabaseTest extends TestCase
 
         $this->expectException(\Exception::class);
 
-        $return = $db->resultCount();
+        @$return = $db->resultCount();
     }
 
     public function test_serverHasTransaction()
@@ -337,7 +337,7 @@ final class MYSQLDatabaseTest extends TestCase
         );
 
         $this->assertTrue(
-            $db->resultExist() === false
+            @$db->resultExist() === false
         );
 
         $db->query($this->query);
@@ -354,7 +354,7 @@ final class MYSQLDatabaseTest extends TestCase
         );
 
         $this->assertTrue(
-            $db->clear()
+            @$db->clear()
         );
 
         $db->query($this->query);
