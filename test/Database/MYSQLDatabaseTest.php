@@ -44,7 +44,7 @@ final class MYSQLDatabaseTest extends TestCase
         $db_connection = $this->db_connection;
         $db_connection['user'] = '';
 
-        $db = new MYSQLDatabase(
+        $db = @new MYSQLDatabase(
             new DatabaseConnection($db_connection)
         );
     }
